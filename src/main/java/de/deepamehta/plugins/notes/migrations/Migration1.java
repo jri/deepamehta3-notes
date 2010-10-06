@@ -2,6 +2,8 @@ package de.deepamehta.plugins.notes.migrations;
 
 import de.deepamehta.core.service.Migration;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -38,6 +40,12 @@ public class Migration1 extends Migration {
             readTypesFromFile("/migrations/note.json");
         } else {
             logger.info("Do NOT create topic type \"Note\" -- already exists");
+            // update icon_src
+            long typeId = dms.getTopicType("de/deepamehta/core/topictype/Note").id;
+            Map properties = new HashMap();
+            logger.info("Updating icon_src of topic type \"Note\" (topic " + typeId + ")");
+            properties.put("icon_src", "/de.deepamehta.3-notes/images/pencil.png");
+            dms.setTopicProperties(typeId, properties);
         }
     }
 }
