@@ -1,5 +1,7 @@
 package de.deepamehta.plugins.notes.migrations;
 
+import de.deepamehta.core.model.DataField;
+import de.deepamehta.core.model.TopicType;
 import de.deepamehta.core.service.Migration;
 
 import java.util.HashMap;
@@ -41,11 +43,18 @@ public class Migration1 extends Migration {
         } else {
             logger.info("Do NOT create topic type \"Note\" -- already exists");
             // update icon_src
-            long typeId = dms.getTopicType("de/deepamehta/core/topictype/Note").id;
+            TopicType noteType = dms.getTopicType("de/deepamehta/core/topictype/Note");
             Map properties = new HashMap();
-            logger.info("Updating icon_src of topic type \"Note\" (topic " + typeId + ")");
+            logger.info("Updating icon_src of topic type \"Note\" (topic " + noteType.id + ")");
             properties.put("icon_src", "/de.deepamehta.3-notes/images/pencil.png");
-            dms.setTopicProperties(typeId, properties);
+            dms.setTopicProperties(noteType.id, properties);
+            // update fields
+            DataField titleField = noteType.getDataField("de/deepamehta/core/property/Title");
+            DataField textField  = noteType.getDataField("de/deepamehta/core/property/Text");
+            titleField.setRendererClass("TitleRenderer");
+            titleField.setIndexingMode("FULLTEXT");
+            textField.setRendererClass("BodyTextRenderer");
+            textField.setIndexingMode("FULLTEXT");
         }
     }
 }
