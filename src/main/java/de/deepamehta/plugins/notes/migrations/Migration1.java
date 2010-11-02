@@ -43,7 +43,7 @@ public class Migration1 extends Migration {
         } else {
             logger.info("Do NOT create topic type \"Note\" -- already exists");
             // update icon_src
-            TopicType noteType = dms.getTopicType("de/deepamehta/core/topictype/Note");
+            TopicType noteType = dms.getTopicType("de/deepamehta/core/topictype/Note", null);   // clientContext=null
             Map properties = new HashMap();
             logger.info("Updating icon_src of topic type \"Note\" (topic " + noteType.id + ")");
             properties.put("icon_src", "/de.deepamehta.3-notes/images/pencil.png");
