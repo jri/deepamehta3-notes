@@ -39,7 +39,7 @@ public class Migration1 extends Migration {
         Set typeURIs = dms.getTopicTypeUris();
         // create topic type "Note"
         if (!typeURIs.contains("de/deepamehta/core/topictype/Note")) {
-            readTypesFromFile("/migrations/note.json");
+            readMigrationFile("/migrations/note.json");
         } else {
             logger.info("Do NOT create topic type \"Note\" -- already exists");
             // update icon_src
